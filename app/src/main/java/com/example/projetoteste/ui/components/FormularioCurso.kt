@@ -76,7 +76,6 @@ fun FormularioCurso(
     }
 }
 
-
 @Preview (showBackground = true)
 @Composable
 fun PreviewFormularioCurso(){
