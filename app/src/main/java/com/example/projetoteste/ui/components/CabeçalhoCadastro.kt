@@ -18,12 +18,12 @@ modifier: Modifier = Modifier
         modifier = Modifier.fillMaxWidth()
     ){
         Text(
-            text = "Cadatro Visual de Cursos",
+            text = "Cadastro Visual de Cursos",
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = "Monte a apresentação incial de um curso técnico."
+            text = "Monte a apresentação inicial de um curso técnico."
         )
     }
 
