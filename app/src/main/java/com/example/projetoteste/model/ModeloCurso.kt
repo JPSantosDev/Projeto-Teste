@@ -17,6 +17,4 @@ data class ModeloCurso (
             descricaoCurta = "Formacao tecnica para criar aplicativos, sistemas web e solucoes digitais."
         )
     }
-
-
 }
