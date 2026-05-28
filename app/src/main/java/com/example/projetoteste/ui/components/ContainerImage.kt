@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +28,7 @@ fun ContainerImage(
 ){
     Box(modifier = modifier
         .fillMaxWidth()
-        .height(40.dp)
+        .height(132.dp)
         .background(VerdeEducacaoClaro)
         .clip(RoundedCornerShape(8.dp)),
         contentAlignment = Alignment.Center
@@ -35,7 +36,7 @@ fun ContainerImage(
         Image(
             painter = painterResource(id = R.drawable.ic_educacao_curso),
             contentDescription = null,
-
+            modifier = modifier.size(96.dp)
         )
     }
 }

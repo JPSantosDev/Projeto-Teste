@@ -1,10 +1,11 @@
 package com.example.projetoteste.utils
 
 import com.example.projetoteste.model.ModeloCurso
+import com.example.projetoteste.model.ResultadoValidado
 
 object CursoValidator{
 
-    fun validar(curso: ModeloCurso):ValidacaoCursoResult{
+    fun validar(curso: ModeloCurso): ResultadoValidado{
 
         val erros = mutableListOf<String>()
 
@@ -20,10 +21,9 @@ object CursoValidator{
         if(curso.descricaoCurta.length > 120)
             erros.add("Descricao curta deve ter no maximo 120 caracteres")
 
-        return ValidacaoCursoResult( // Retorna um objeto único com a resposta completa da validação.
-            valido = erros.isEmpty(), // Considera válido somente quando nenhuma regra adicionou pendência.
-            mensagens = erros // Entrega todas as pendências para a tela montar uma mensagem clara.
-        ) //
-
+        return ResultadoValidado(
+            valido = erros.isEmpty(),
+            mensagens = erros
+        )
     }
 }
