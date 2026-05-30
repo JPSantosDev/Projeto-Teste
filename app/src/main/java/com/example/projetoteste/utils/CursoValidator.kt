@@ -9,7 +9,7 @@ object CursoValidator{
 
         val erros = mutableListOf<String>()
 
-        if(curso.nomeCompleto.trim().length>10)
+        if(curso.nomeCompleto.trim().length<10)
             erros.add("Nome completo do curso deve ter no mínimo 10 caracteres")
         if(curso.categoriaCurso.trim().isEmpty())
             erros.add("Categoria não pode ficar vazia.")

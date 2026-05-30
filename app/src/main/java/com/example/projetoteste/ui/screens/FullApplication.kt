@@ -38,6 +38,8 @@ import com.example.projetoteste.ui.components.CadastrarButtons
 import com.example.projetoteste.ui.components.ContainerImage
 import com.example.projetoteste.ui.components.CursoCard
 import com.example.projetoteste.ui.components.FormularioCurso
+import com.example.projetoteste.utils.CursoValidator
+
 
 @Preview
 @Composable
@@ -45,6 +47,7 @@ fun FullApplication(modifier: Modifier = Modifier) {
     var selectedTab by remember { mutableIntStateOf(0) }
     var curso by remember { mutableStateOf(ModeloCurso()) }
     var cursos by remember { mutableStateOf(listOf<ModeloCurso>()) }
+    var erros by remember { mutableStateOf<List<String>>(emptyList()) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -102,6 +105,7 @@ fun FullApplication(modifier: Modifier = Modifier) {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
                             items(cursos) { item ->
                                 CursoCard(curso = item)
+                                Spacer(modifier.height(16.dp))
                             }
                         }
                     }
@@ -113,7 +117,7 @@ fun FullApplication(modifier: Modifier = Modifier) {
                             .fillMaxSize()
                             .verticalScroll(rememberScrollState())
                     ) {
-                        ContainerImage()
+                        Spacer(modifier.height(8.dp))
                         FormularioCurso(
                             curso = curso,
                             onNomeCompletoChange = { curso = curso.copy(nomeCompleto = it) },
@@ -125,13 +129,32 @@ fun FullApplication(modifier: Modifier = Modifier) {
                         Spacer(modifier = Modifier.height(16.dp))
                         CadastrarButtons(
                             onCadastrar = {
-                                if (curso.nomeCompleto.isNotBlank()) {
+                                val resultado = CursoValidator.validar(curso)
+
+                                if (resultado.valido) {
                                     cursos = cursos + curso
                                     curso = ModeloCurso()
+                                    erros = emptyList()
                                     selectedTab = 0
+                                }
+                                else{
+                                    erros = resultado.mensagens
                                 }
                             }
                         )
+                        if (erros.isNotEmpty()) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Column {
+                                erros.forEach { erro ->
+                                    Text(
+                                        text = "• $erro",
+                                        color = Color(0xFFE50914),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        modifier = Modifier.padding(vertical = 2.dp)
+                                    )
+                                }
+                            }
+                        }
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
