@@ -2,8 +2,12 @@ package com.example.projetoteste.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -28,25 +32,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.projetoteste.model.ModeloCurso
+import com.example.projetoteste.ui.components.CadastrarButtons
 import com.example.projetoteste.ui.components.Cabecalho
+import com.example.projetoteste.ui.components.CadastrarButtons
 import com.example.projetoteste.ui.components.ContainerImage
+import com.example.projetoteste.ui.components.CursoCard
 import com.example.projetoteste.ui.components.FormularioCurso
 
 @Preview
 @Composable
-fun FullApplication(
-    modifier: Modifier = Modifier
-) {
+fun FullApplication(modifier: Modifier = Modifier) {
     var selectedTab by remember { mutableIntStateOf(0) }
     var curso by remember { mutableStateOf(ModeloCurso()) }
+    var cursos by remember { mutableStateOf(listOf<ModeloCurso>()) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            NavigationBar(
-                containerColor = Color(0xFF1A1A1A)
-            ) {
+            NavigationBar(containerColor = Color(0xFF1A1A1A)) {
                 NavigationBarItem(
                     selected = selectedTab == 0,
                     onClick = { selectedTab = 0 },
@@ -85,23 +89,31 @@ fun FullApplication(
             Cabecalho()
 
             when (selectedTab) {
+
                 0 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Nenhum curso cadastrado ainda.",
-                            color = Color.Gray
-                        )
+                    if (cursos.isEmpty()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("Nenhum curso cadastrado ainda.", color = Color.Gray)
+                        }
+                    } else {
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            items(cursos) { item ->
+                                CursoCard(curso = item)
+                            }
+                        }
                     }
                 }
+
                 1 -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .verticalScroll(rememberScrollState())
                     ) {
+                        ContainerImage()
                         FormularioCurso(
                             curso = curso,
                             onNomeCompletoChange = { curso = curso.copy(nomeCompleto = it) },
@@ -110,6 +122,17 @@ fun FullApplication(
                             onCargaHorariaChange = { curso = curso.copy(cargaHoraria = it) },
                             onDescricaoChange = { curso = curso.copy(descricaoCurta = it) }
                         )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        CadastrarButtons(
+                            onCadastrar = {
+                                if (curso.nomeCompleto.isNotBlank()) {
+                                    cursos = cursos + curso
+                                    curso = ModeloCurso()
+                                    selectedTab = 0
+                                }
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
             }
