@@ -1,6 +1,5 @@
 package com.example.projetoteste.ui.components
 
-import android.R.attr.label
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,62 +23,59 @@ fun FormularioCurso(
     onCategoriaChange: (String) -> Unit,
     onCargaHorariaChange: (String) -> Unit,
     onDescricaoChange: (String) -> Unit,
-
-){
-    Column(
-        modifier = modifier.fillMaxWidth()
-    ) {
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = "Dados do Curso",
             style = MaterialTheme.typography.titleLarge
         )
-        Spacer(modifier.height(10.dp))
+        Spacer(Modifier.height(10.dp))
         OutlinedTextField(
             value = curso.nomeCompleto,
             onValueChange = onNomeCompletoChange,
             label = { Text("Nome completo do curso") },
             singleLine = true,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier.height(10.dp))
+        Spacer(Modifier.height(10.dp))
         OutlinedTextField(
             value = curso.nomeBreve,
             onValueChange = onNomeBreveChange,
-            label = { Text("Nome Breve") },
+            label = { Text("Nome breve") },
             singleLine = true,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier.height(10.dp))
+        Spacer(Modifier.height(10.dp))
         OutlinedTextField(
             value = curso.categoriaCurso,
             onValueChange = onCategoriaChange,
             label = { Text("Categoria") },
             singleLine = true,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier.height(10.dp))
+        Spacer(Modifier.height(10.dp))
         OutlinedTextField(
             value = curso.cargaHoraria,
             onValueChange = onCargaHorariaChange,
-            label = { Text("Carga Horária") },
+            label = { Text("Carga horária") },
             singleLine = true,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier.height(10.dp))
+        Spacer(Modifier.height(10.dp))
         OutlinedTextField(
             value = curso.descricaoCurta,
             onValueChange = onDescricaoChange,
-            label = { Text("Descrição Curta") },
+            label = { Text("Descrição curta") },
             singleLine = true,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
-fun PreviewFormularioCurso(){
-    ProjetoTesteTheme() {
+fun PreviewFormularioCurso() {
+    ProjetoTesteTheme {
         FormularioCurso(
             curso = ModeloCurso().exemplo(),
             onNomeCompletoChange = {},

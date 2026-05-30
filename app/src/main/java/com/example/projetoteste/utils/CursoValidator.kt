@@ -3,23 +3,31 @@ package com.example.projetoteste.utils
 import com.example.projetoteste.model.ModeloCurso
 import com.example.projetoteste.model.ResultadoValidado
 
-object CursoValidator{
+object CursoValidator {
 
-    fun validar(curso: ModeloCurso): ResultadoValidado{
-
+    fun validar(curso: ModeloCurso): ResultadoValidado {
         val erros = mutableListOf<String>()
 
-        if(curso.nomeCompleto.trim().length<10)
-            erros.add("Nome completo do curso deve ter no mínimo 10 caracteres")
-        if(curso.categoriaCurso.trim().isEmpty())
-            erros.add("Categoria não pode ficar vazia.")
-        val cargaHorariaNumero = curso.cargaHoraria.toIntOrNull()
+        if (curso.nomeCompleto.trim().length < 10)
+            erros.add("O nome completo precisa ser mais descritivo (mínimo 10 caracteres).")
+        if (curso.nomeBreve.trim().length > 20)
+            erros.add("O nome breve deve ser reduzido (máximo 20 caracteres).")
+        if (curso.categoriaCurso.trim().isEmpty())
+            erros.add("A categoria é obrigatória.")
+        if (curso.cargaHoraria.trim().isEmpty()) {
+            erros.add("A carga horária é obrigatória.")
+        } else {
+            val cargaHorariaNumero = curso.cargaHoraria.toIntOrNull()
+            when {
+                cargaHorariaNumero == null ->
+                    erros.add("A carga horária deve ser numérica.")
+                cargaHorariaNumero <= 0 ->
+                    erros.add("A carga horária deve ser positiva.")
+            }
+        }
 
-        if(cargaHorariaNumero == null || cargaHorariaNumero < 0)
-            erros.add("Carga horaria deve ser um numero positivo")
-
-        if(curso.descricaoCurta.length > 120)
-            erros.add("Descricao curta deve ter no maximo 120 caracteres")
+        if (curso.descricaoCurta.length > 120)
+            erros.add("A descrição ultrapassou o limite permitido de 120 caracteres.")
 
         return ResultadoValidado(
             valido = erros.isEmpty(),
