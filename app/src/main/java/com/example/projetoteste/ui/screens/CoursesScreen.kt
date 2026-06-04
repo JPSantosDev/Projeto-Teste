@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.projetoteste.model.ModeloCurso
+import com.example.projetoteste.model.Status
 import com.example.projetoteste.ui.components.CadastrarButtons
 import com.example.projetoteste.ui.components.ContainerImage
 import com.example.projetoteste.ui.components.FormularioCurso
@@ -43,7 +44,6 @@ fun CoursesScreen(
     var curso by remember { mutableStateOf(ModeloCurso()) }
     var erros by remember { mutableStateOf<List<String>>(emptyList()) }
     var statusMessage by remember { mutableStateOf("Preencha os dados para gerar a visualização do curso.")}
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +74,10 @@ fun CoursesScreen(
             onNomeBreveChange = { curso = curso.copy(nomeBreve = it) },
             onCategoriaChange = { curso = curso.copy(categoriaCurso = it) },
             onCargaHorariaChange = { curso = curso.copy(cargaHoraria = it) },
-            onDescricaoChange = { curso = curso.copy(descricaoCurta = it) }
+            onDescricaoChange = { curso = curso.copy(descricaoCurta = it) },
+            onSetDisponivel = {curso.status = Status.DISPONIVEL },
+            onSetIndisponivel = {curso.status = Status.INDISPONIVEL},
+            onSetEmbreve = {curso.status = Status.EM_BREVE},
         )
 
         Spacer(Modifier.height(16.dp))

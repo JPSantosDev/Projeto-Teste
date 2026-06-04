@@ -3,7 +3,7 @@ package com.example.projetoteste.model
 data class ModeloCurso (
     var id: Int = 0,
     val nivel: Int = 0,
-    val status: Status = Status.DISPONIVEL,
+    var status: Status = Status.DISPONIVEL,
     val nomeCompleto: String = "",
     val nomeBreve: String = "",
     val categoriaCurso:String = "",
