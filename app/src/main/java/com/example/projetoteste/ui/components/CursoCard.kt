@@ -61,6 +61,6 @@ fun CursoCard(
 @Composable
 fun PreviewCursoCard() {
     ProjetoTesteTheme {
-        CursoCard(curso = ModeloCurso().exemplo())
+        CursoCard(curso = ModeloCurso().exemplos()[0])
     }
 }

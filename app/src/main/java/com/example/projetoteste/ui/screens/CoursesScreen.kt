@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.projetoteste.model.ModeloCurso
 import com.example.projetoteste.ui.components.CadastrarButtons
@@ -37,6 +38,7 @@ fun CoursesScreen(
     onCadastrar: (ModeloCurso) -> Unit,
     onNavegar: () -> Unit
 ){
+    var id = 0
     var selectedTab by remember { mutableIntStateOf(1) }
     var curso by remember { mutableStateOf(ModeloCurso()) }
     var erros by remember { mutableStateOf<List<String>>(emptyList()) }
@@ -153,7 +155,7 @@ fun CoursesScreen(
                 }
             },
             onCarregarExemplo = {
-                curso = ModeloCurso().exemplo()
+                curso = ModeloCurso().exemplos()[0]
                 erros = emptyList()
                 statusMessage = "Exemplo carregado para análise."
             },
@@ -165,6 +167,7 @@ fun CoursesScreen(
                     erros = emptyList()
                     statusMessage = "Preencha os dados para gerar a visualização do curso."
                     onNavegar()
+                    curso.id = id++
                 } else {
                     erros = resultado.mensagens
                     statusMessage = when {
@@ -177,7 +180,6 @@ fun CoursesScreen(
             }
         )
 
-        // Lista de erros em vermelho abaixo dos botões
         if (erros.isNotEmpty()) {
             Spacer(Modifier.height(8.dp))
             Column {
@@ -191,7 +193,16 @@ fun CoursesScreen(
                 }
             }
         }
-
         Spacer(Modifier.height(16.dp))
     }
+}
+
+@Composable
+@Preview (showBackground = true)
+fun PreviewCourseScreen(){
+    CoursesScreen(
+        cursos = emptyList(),
+        onCadastrar = {},
+        onNavegar = {}
+    )
 }

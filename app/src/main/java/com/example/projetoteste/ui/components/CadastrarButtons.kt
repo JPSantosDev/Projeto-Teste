@@ -47,7 +47,6 @@ fun CadastrarButtons(
 
         Spacer(Modifier.height(8.dp))
 
-        // Botão principal de validação
         Button(
             onClick = onValidar,
             modifier = Modifier.fillMaxWidth()
@@ -57,7 +56,6 @@ fun CadastrarButtons(
 
         Spacer(Modifier.height(4.dp))
 
-        // Botão de salvar curso
         Button(
             onClick = onCadastrar,
             modifier = Modifier.fillMaxWidth(),

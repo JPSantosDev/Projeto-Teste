@@ -49,11 +49,12 @@ import com.example.projetoteste.utils.CursoValidator
 @Composable
 fun FullApplication(modifier: Modifier = Modifier){
 
-    var selectedTab by remember { mutableIntStateOf(1) }
+    var selectedTab by remember { mutableIntStateOf(0) }
     var curso by remember { mutableStateOf(ModeloCurso()) }
     var cursos by remember { mutableStateOf(listOf<ModeloCurso>()) }
     var statusMessage by remember { mutableStateOf("Preencha os dados para gerar a visualização do curso.")}
     var erros by remember { mutableStateOf<List<String>>(emptyList()) }
+
 
     Scaffold(
         modifier = modifier.fillMaxSize(),

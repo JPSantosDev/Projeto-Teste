@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -23,6 +25,9 @@ fun FormularioCurso(
     onCategoriaChange: (String) -> Unit,
     onCargaHorariaChange: (String) -> Unit,
     onDescricaoChange: (String) -> Unit,
+    onSetDisponivel: () -> Unit,
+    onSetIndisponivel: () -> Unit,
+    onSetEmbreve: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
@@ -69,6 +74,24 @@ fun FormularioCurso(
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+        DropdownMenu(
+            expanded = false,
+            onDismissRequest = {}
+        ) {
+            DropdownMenuItem(
+                text = {Text("Disponível")},
+                onClick = onSetDisponivel
+            )
+            DropdownMenuItem(
+                text = {Text("Indisponível")},
+                onClick = onSetIndisponivel
+            )
+            DropdownMenuItem(
+                text = {Text("Em Breve")},
+                onClick = onSetEmbreve
+            )
+
+        }
     }
 }
 
@@ -77,12 +100,16 @@ fun FormularioCurso(
 fun PreviewFormularioCurso() {
     ProjetoTesteTheme {
         FormularioCurso(
-            curso = ModeloCurso().exemplo(),
+            curso = ModeloCurso().exemplos()[0],
             onNomeCompletoChange = {},
             onCategoriaChange = {},
             onDescricaoChange = {},
             onNomeBreveChange = {},
-            onCargaHorariaChange = {}
+            onCargaHorariaChange = {},
+            onSetEmbreve = {},
+            onSetDisponivel = {},
+            onSetIndisponivel = {}
+
         )
     }
 }
