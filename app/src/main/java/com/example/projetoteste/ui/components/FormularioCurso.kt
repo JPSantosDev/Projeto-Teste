@@ -128,7 +128,7 @@ fun FormularioCurso(
                     DropdownMenuItem(
                         text = { Text("Disponível") },
                         onClick = {
-                            onSetBasico()
+                            onSetDisponivel()
                             expanded = false
                         }
                     )

@@ -47,68 +47,77 @@ import com.example.projetoteste.utils.CursoValidator
 
 @Preview
 @Composable
-fun FullApplication(modifier: Modifier = Modifier){
+fun FullApplication(modifier: Modifier = Modifier) {
 
     var selectedTab by remember { mutableIntStateOf(0) }
     var curso by remember { mutableStateOf(ModeloCurso()) }
     var cursos by remember { mutableStateOf(listOf<ModeloCurso>()) }
-    var statusMessage by remember { mutableStateOf("Preencha os dados para gerar a visualização do curso.")}
+    var statusMessage by remember { mutableStateOf("Preencha os dados para gerar a visualização do curso.") }
     var erros by remember { mutableStateOf<List<String>>(emptyList()) }
+    var cursoSelecionado by remember { mutableStateOf<ModeloCurso?>(null) }
 
+    if (cursoSelecionado != null) {
+        CursoDetalhe(
+            curso = cursoSelecionado!!,
+            onVoltar = { cursoSelecionado = null }
+        )
+    } else {
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            NavigationBar(containerColor = Color(0xFF1A1A1A)) {
-                NavigationBarItem(
-                    selected = selectedTab == 0,
-                    onClick = { selectedTab = 0 },
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Meus Cursos") },
-                    label = { Text("Meus Cursos") },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color(0xFFE50914),
-                        selectedTextColor = Color(0xFFE50914),
-                        unselectedIconColor = Color.Gray,
-                        unselectedTextColor = Color.Gray,
-                        indicatorColor = Color(0xFF2A2A2A)
+        Scaffold(
+            modifier = modifier.fillMaxSize(),
+            containerColor = MaterialTheme.colorScheme.background,
+            bottomBar = {
+                NavigationBar(containerColor = Color(0xFF1A1A1A)) {
+                    NavigationBarItem(
+                        selected = selectedTab == 0,
+                        onClick = { selectedTab = 0 },
+                        icon = { Icon(Icons.Default.Home, contentDescription = "Meus Cursos") },
+                        label = { Text("Meus Cursos") },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color(0xFFE50914),
+                            selectedTextColor = Color(0xFFE50914),
+                            unselectedIconColor = Color.Gray,
+                            unselectedTextColor = Color.Gray,
+                            indicatorColor = Color(0xFF2A2A2A)
+                        )
                     )
-                )
-                NavigationBarItem(
-                    selected = selectedTab == 1,
-                    onClick = { selectedTab = 1 },
-                    icon = { Icon(Icons.Default.Add, contentDescription = "Cadastrar Curso") },
-                    label = { Text("Cadastrar Curso") },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color(0xFFE50914),
-                        selectedTextColor = Color(0xFFE50914),
-                        unselectedIconColor = Color.Gray,
-                        unselectedTextColor = Color.Gray,
-                        indicatorColor = Color(0xFF2A2A2A)
+                    NavigationBarItem(
+                        selected = selectedTab == 1,
+                        onClick = { selectedTab = 1 },
+                        icon = { Icon(Icons.Default.Add, contentDescription = "Cadastrar Curso") },
+                        label = { Text("Cadastrar Curso") },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color(0xFFE50914),
+                            selectedTextColor = Color(0xFFE50914),
+                            unselectedIconColor = Color.Gray,
+                            unselectedTextColor = Color.Gray,
+                            indicatorColor = Color(0xFF2A2A2A)
+                        )
                     )
-                )
-            }
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 20.dp, vertical = 16.dp)
-        ) {
-            Cabecalho()
-
-            when (selectedTab) {
-                0 -> {
-                    MainScreen(cursos)
                 }
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 20.dp, vertical = 16.dp)
+            ) {
+                Cabecalho()
 
-                1 -> {
-                    CoursesScreen(
-                        cursos,
-                        onCadastrar = {cursos = cursos+it},
-                        onNavegar = {selectedTab = 0}
-                    )
+                when (selectedTab) {
+                    0 -> {
+                        MainScreen(cursos = cursos,
+                            onCursoClick = {cursoSelecionado = it} )
+                    }
+
+                    1 -> {
+                        CoursesScreen(
+                            cursos,
+                            onCadastrar = { cursos = cursos + it },
+                            onNavegar = { selectedTab = 0 }
+                        )
+                    }
                 }
             }
         }

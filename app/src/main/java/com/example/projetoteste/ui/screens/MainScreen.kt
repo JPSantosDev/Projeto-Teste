@@ -24,42 +24,76 @@ import androidx.compose.ui.unit.dp
 import com.example.projetoteste.model.ModeloCurso
 import com.example.projetoteste.ui.components.Busca
 import com.example.projetoteste.ui.components.CursoCard
+import com.example.projetoteste.ui.components.FiltroCursos
 import com.example.projetoteste.ui.screens.CoursesScreen
 
 
 @Composable
 fun MainScreen(
-    cursos: List<ModeloCurso>
-){
+    cursos: List<ModeloCurso>,
+    onCursoClick: (ModeloCurso) -> Unit
+) {
 
+    var filtroSelecionado by remember { mutableStateOf("Todos") }
     var campoBusca by remember { mutableStateOf("") }
+    var tipoFiltro by remember { mutableStateOf("Nivel") }
+    val categorias = cursos.map { it.categoriaCurso }.distinct()
 
-    Spacer(Modifier.height(8.dp))
-    Row(modifier = Modifier
-        .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center) {
+    FiltroCursos(
+        tipoFiltro = tipoFiltro,
+        filtroSelecionado = filtroSelecionado,
+        categorias = categorias,
+        onTipoFiltroChange = { tipoFiltro = it },
+        onFiltroChange = { filtroSelecionado = it }
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
         Busca(
             textValue = campoBusca,
             mudarTexto = { campoBusca = it }
         )
     }
 
-    if (cursos.isEmpty()) {
+    if (cursos.filter { curso ->
+            val matchBusca =
+                curso.nomeCompleto.contains(campoBusca, ignoreCase = true) ||
+                        curso.nomeBreve.contains(campoBusca, ignoreCase = true) ||
+                        curso.categoriaCurso.contains(campoBusca, ignoreCase = true)
+
+            val matchFiltro = filtroSelecionado == "Todos" ||
+                    (tipoFiltro == "Nivel" && curso.nivel.label == filtroSelecionado) ||
+                    (tipoFiltro == "Categoria" && curso.categoriaCurso == filtroSelecionado)
+
+            matchBusca && matchFiltro
+        }.isEmpty()
+    ) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("Nenhum curso cadastrado ainda.", color = Color.Gray)
+            Text("Curso não encontrado", color = Color.Gray)
         }
     } else {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn {
+            items(
+                cursos.filter { curso ->
+                    val matchBusca =
+                        curso.nomeCompleto.contains(campoBusca, ignoreCase = true) ||
+                                curso.nomeBreve.contains(campoBusca, ignoreCase = true) ||
+                                curso.categoriaCurso.contains(campoBusca, ignoreCase = true)
 
-            items(cursos.filter {
-                        it.nomeCompleto.contains(campoBusca, ignoreCase = true) ||
-                        it.nomeBreve.contains(campoBusca, ignoreCase = true)||
-                        it.categoriaCurso.contains(campoBusca, ignoreCase = true)})
-            { item ->
-                CursoCard(curso = item)
+                    val matchFiltro = filtroSelecionado == "Todos" ||
+                            (tipoFiltro == "Nivel" && curso.nivel.label == filtroSelecionado) ||
+                            (tipoFiltro == "Categoria" && curso.categoriaCurso == filtroSelecionado)
+
+                    matchBusca && matchFiltro
+                }
+            ) { item ->
+                CursoCard(curso = item, onCursoClick = { onCursoClick(item) })
                 Spacer(Modifier.height(16.dp))
             }
         }

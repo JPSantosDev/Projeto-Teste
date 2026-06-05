@@ -1,5 +1,6 @@
 package com.example.projetoteste.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +21,18 @@ import com.example.projetoteste.ui.theme.ProjetoTesteTheme
 @Composable
 fun CursoCard(
     curso: ModeloCurso,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCursoClick: (Int) -> Unit
 ) {
-    Card(modifier = modifier.fillMaxWidth()) {
+    Card(modifier = modifier
+        .fillMaxWidth()
+        .clickable(
+            enabled = true,
+            onClick = {onCursoClick(curso.id)}
+        )
+    ) {
         Column(modifier = Modifier.padding(16.dp)) {
+
             Text(
                 text = curso.nomeCompleto,
                 style = MaterialTheme.typography.titleMedium,
@@ -73,6 +82,9 @@ fun CursoCard(
 @Composable
 fun PreviewCursoCard() {
     ProjetoTesteTheme {
-        CursoCard(curso = ModeloCurso().exemplos()[0])
+        CursoCard(
+            curso = ModeloCurso().exemplos()[0],
+            onCursoClick = {}
+        )
     }
 }
