@@ -1,6 +1,7 @@
 package com.example.projetoteste.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,7 +54,8 @@ fun Cabecalho(
         }
         Row(modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Black)
+            .background(Color.Black),
+            horizontalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = "Explore cursos técnicos e profissionalizantes.",

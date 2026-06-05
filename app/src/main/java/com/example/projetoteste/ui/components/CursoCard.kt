@@ -32,7 +32,19 @@ fun CursoCard(
             )
             Spacer(Modifier.height(8.dp))
             Text(
+                text = "ID: ${curso.id}",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Cyan
+            )
+            Text(
                 text = curso.nomeBreve,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFFE50914)
+            )
+            Spacer(Modifier.height(4.
+            dp))
+            Text(
+                text = curso.status.label,
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color(0xFFE50914)
             )

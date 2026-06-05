@@ -14,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.projetoteste.model.ModeloCurso
+import com.example.projetoteste.model.Nivel
 import com.example.projetoteste.model.Status
 import com.example.projetoteste.ui.components.CadastrarButtons
 import com.example.projetoteste.ui.components.ContainerImage
@@ -75,9 +77,13 @@ fun CoursesScreen(
             onCategoriaChange = { curso = curso.copy(categoriaCurso = it) },
             onCargaHorariaChange = { curso = curso.copy(cargaHoraria = it) },
             onDescricaoChange = { curso = curso.copy(descricaoCurta = it) },
-            onSetDisponivel = {curso.status = Status.DISPONIVEL },
-            onSetIndisponivel = {curso.status = Status.INDISPONIVEL},
-            onSetEmbreve = {curso.status = Status.EM_BREVE},
+            onSetDisponivel = {curso = curso.copy(status = Status.DISPONIVEL)},
+            onSetIndisponivel = {curso = curso.copy(status = Status.INDISPONIVEL)},
+            onSetEmBreve = {curso = curso.copy(status = Status.EM_BREVE)},
+            onSetBasico = {curso = curso.copy(nivel = Nivel.BASICO)},
+            onSetIntermediario = {curso = curso.copy(nivel = Nivel.INTERMEDIARIO)},
+            onSetAvancado = {curso = curso.copy(nivel = Nivel.AVANCADO)}
+
         )
 
         Spacer(Modifier.height(16.dp))
@@ -123,9 +129,7 @@ fun CoursesScreen(
                 )
             }
         }
-
         Spacer(Modifier.height(12.dp))
-
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E))
@@ -137,7 +141,6 @@ fun CoursesScreen(
                 color = Color.LightGray
             )
         }
-
         Spacer(Modifier.height(12.dp))
         CadastrarButtons(
             onLimpar = {
@@ -158,7 +161,7 @@ fun CoursesScreen(
                 }
             },
             onCarregarExemplo = {
-                curso = ModeloCurso().exemplos()[0]
+                curso = ModeloCurso().exemplos()[5]
                 erros = emptyList()
                 statusMessage = "Exemplo carregado para análise."
             },

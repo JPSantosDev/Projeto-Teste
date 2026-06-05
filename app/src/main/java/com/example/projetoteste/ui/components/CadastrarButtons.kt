@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -49,7 +50,8 @@ fun CadastrarButtons(
 
         Button(
             onClick = onValidar,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(Color(0xFFE50914))
         ) {
             Text("Validar cadastro")
         }
@@ -59,7 +61,7 @@ fun CadastrarButtons(
         Button(
             onClick = onCadastrar,
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1B5E20))
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE50914))
         ) {
             Text("Cadastrar")
         }

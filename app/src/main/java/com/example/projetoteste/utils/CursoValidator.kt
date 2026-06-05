@@ -8,6 +8,8 @@ object CursoValidator {
     fun validar(curso: ModeloCurso): ResultadoValidado {
         val erros = mutableListOf<String>()
 
+        if(curso.id <= 0)
+            erros.add("O id deve ser um valor positivo acima de zero")
         if (curso.nomeCompleto.trim().length < 10)
             erros.add("O nome completo precisa ser mais descritivo (mínimo 10 caracteres).")
         if (curso.nomeBreve.trim().length > 20)

@@ -34,6 +34,7 @@ fun MainScreen(
 
     var campoBusca by remember { mutableStateOf("") }
 
+    Spacer(Modifier.height(8.dp))
     Row(modifier = Modifier
         .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center) {
