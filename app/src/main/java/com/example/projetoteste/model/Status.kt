@@ -1,7 +1,7 @@
 package com.example.projetoteste.model
 
-enum class Status (val label: String) {
+enum class Status(val label: String) {
     DISPONIVEL("Disponível"),
-    EM_BREVE ("Em Breve"),
-    INDISPONIVEL("Indisponivel")
+    EM_BREVE("Em breve"),
+    INDISPONIVEL("Indisponível")
 }

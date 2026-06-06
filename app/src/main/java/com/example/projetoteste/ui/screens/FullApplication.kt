@@ -1,22 +1,11 @@
 package com.example.projetoteste.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -30,39 +19,30 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.projetoteste.model.ModeloCurso
-import com.example.projetoteste.ui.components.CadastrarButtons
 import com.example.projetoteste.ui.components.Cabecalho
-import com.example.projetoteste.ui.components.ContainerImage
-import com.example.projetoteste.ui.components.CursoCard
-import com.example.projetoteste.ui.components.FormularioCurso
-import com.example.projetoteste.ui.theme.ProjetoTesteTheme
-import com.example.projetoteste.utils.CursoValidator
 
 @Preview
 @Composable
 fun FullApplication(modifier: Modifier = Modifier) {
 
     var selectedTab by remember { mutableIntStateOf(0) }
-    var curso by remember { mutableStateOf(ModeloCurso()) }
-    var cursos by remember { mutableStateOf(listOf<ModeloCurso>()) }
-    var statusMessage by remember { mutableStateOf("Preencha os dados para gerar a visualização do curso.") }
-    var erros by remember { mutableStateOf<List<String>>(emptyList()) }
+    var cursos by remember { mutableStateOf(ModeloCurso().exemplos()) }
     var cursoSelecionado by remember { mutableStateOf<ModeloCurso?>(null) }
+    var idSelecionado by remember { mutableStateOf<Int?>(null) }
 
-    if (cursoSelecionado != null) {
+    val cursoAtual = cursoSelecionado
+
+    if (cursoAtual != null) {
         CursoDetalhe(
-            curso = cursoSelecionado!!,
+            curso = cursoAtual,
             onVoltar = { cursoSelecionado = null }
         )
     } else {
-
         Scaffold(
             modifier = modifier.fillMaxSize(),
             containerColor = MaterialTheme.colorScheme.background,
@@ -107,13 +87,18 @@ fun FullApplication(modifier: Modifier = Modifier) {
 
                 when (selectedTab) {
                     0 -> {
-                        MainScreen(cursos = cursos,
-                            onCursoClick = {cursoSelecionado = it} )
+                        MainScreen(
+                            cursos = cursos,
+                            idSelecionado = idSelecionado,
+                            onCursoClick = { curso ->
+                                idSelecionado = curso.id
+                                cursoSelecionado = curso
+                            }
+                        )
                     }
-
                     1 -> {
                         CoursesScreen(
-                            cursos,
+                            cursos = cursos,
                             onCadastrar = { cursos = cursos + it },
                             onNavegar = { selectedTab = 0 }
                         )
